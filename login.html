@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | Lập trình Web @01/2024</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">WebDev Lab</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html" class="active">Đăng nhập</a></li>
+                <li><a href="register.html">Đăng ký</a></li>
+                <li><a href="list.html">Quản lý</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-container glass">
+            <h2 class="form-title">Chào mừng trở lại</h2>
+            <form action="list.html" method="GET">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-control" placeholder="Nhập tên đăng nhập" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" class="form-control" placeholder="Nhập mật khẩu" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-check">
+                        <input type="checkbox"> Ghi nhớ đăng nhập
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="background-color: #2f81f7;">Đăng nhập</button>
+                
+                <div class="form-footer">
+                    Bạn chưa có tài khoản? <a href="register.html">Đăng ký ngay</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>Lập trình web @01/2024</p>
+    </footer>
+</body>
+</html>
