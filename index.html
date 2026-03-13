@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ | Lập trình Web @01/2024</title>
     <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <header>
@@ -20,14 +21,34 @@
     </header>
 
     <main>
-        <div class="glass" style="padding: 4rem; text-align: center; margin-top: 4rem;">
-            <h1 style="font-size: 3rem; margin-bottom: 1.5rem; background: linear-gradient(45deg, #fff, var(--accent-color)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Chào mừng đến với Lab 03</h1>
-            <p style="color: var(--text-secondary); font-size: 1.2rem; max-width: 700px; margin: 0 auto 2rem;">Thiết kế giao diện hiện đại với HTML/CSS/JS và quản lý mã nguồn bằng Git. Khám phá các chức năng quản lý người dùng với trải nghiệm mượt mà.</p>
-            <div style="display: flex; gap: 1rem; justify-content: center;">
-                <a href="login.html" class="btn btn-primary" style="width: auto; padding: 1rem 2.5rem;">Bắt đầu ngay</a>
-                <a href="list.html" class="btn" style="width: auto; padding: 1rem 2.5rem; border: 1px solid var(--border-color);">Xem danh sách</a>
+        <section class="hero reveal">
+            <div class="glass hero-content">
+                <h1>Chào mừng đến với <span class="gradient-text">Lab 03</span></h1>
+                <p>Thiết kế giao diện hiện đại với HTML/CSS/JS và quản lý mã nguồn bằng Git. Khám phá các chức năng quản lý người dùng với trải nghiệm mượt mà.</p>
+                <div class="hero-actions">
+                    <a href="login.html" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Bắt đầu ngay</a>
+                    <a href="list.html" class="btn btn-outline"><i class="fas fa-users"></i> Xem danh sách</a>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section class="features grid">
+            <div class="glass feature-card reveal" style="transition-delay: 0.1s;">
+                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Hiệu năng</h3>
+                <p>Tối ưu hóa tốc độ tải trang và phản hồi người dùng tức thì.</p>
+            </div>
+            <div class="glass feature-card reveal" style="transition-delay: 0.2s;">
+                <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                <h3>Bảo mật</h3>
+                <p>Hệ thống quản lý quyền truy cập và dữ liệu an toàn tuyệt đối.</p>
+            </div>
+            <div class="glass feature-card reveal" style="transition-delay: 0.3s;">
+                <div class="feature-icon"><i class="fas fa-paint-roller"></i></div>
+                <h3>Giao diện</h3>
+                <p>Thiết kế Glassmorphism hiện đại, sang trọng và chuẩn Responsive.</p>
+            </div>
+        </section>
     </main>
 
     <footer>
