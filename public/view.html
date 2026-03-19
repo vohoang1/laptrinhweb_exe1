@@ -189,10 +189,14 @@
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
                 <li><a href="register.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
-                <li><a href="list.html"><i class="fas fa-users"></i> Quản lý</a></li>
+                <li><a href="list.html"><i class="fas fa-users"></i> Khách hàng</a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> Sản phẩm</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
             </ul>
         </nav>
     </header>
+
+    <script src="js/auth.js"></script>
 
     <main>
         <div class="profile-card glass reveal">
@@ -272,7 +276,7 @@
             </div>
             
             <div class="action-buttons" style="margin-top: 2rem;">
-                <a href="update.html" class="btn-action btn-edit">
+                <a id="editLink" href="update.html" class="btn-action btn-edit">
                     <i class="fas fa-edit"></i> Chỉnh sửa
                 </a>
                 <a href="list.html" class="btn-action btn-back">
@@ -313,13 +317,25 @@
         
         async function loadUserData(userId) {
             try {
-                const response = await fetch('/api/users');
+                const response = await fetch(`/api/users/${userId}`, {
+                    headers: {
+                        'x-username': localStorage.getItem('username') || ''
+                    }
+                });
+                
+                if (response.status === 401) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
                 if (!response.ok) throw new Error('Không thể tải dữ liệu');
-                const users = await response.json();
-                const user = users.find(u => u.user_id == userId);
+                
+                const user = await response.json();
                 
                 if (user) {
                     displayUserData(user);
+                    // Cập nhật link chỉnh sửa với ID
+                    document.getElementById('editLink').href = `update.html?id=${user.user_id}`;
                 } else {
                     showError('Không tìm thấy người dùng');
                 }
@@ -359,10 +375,37 @@
             `;
         }
         
-        function confirmDelete() {
-            if (confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
-                alert('Chức năng xóa sẽ được cập nhật!');
-                // TODO: Implement delete functionality
+        async function confirmDelete() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('id');
+            
+            if (!userId) return;
+
+            if (confirm('Bạn có chắc chắn muốn xóa người dùng này?\nLưu ý: Tất cả đơn hàng liên quan cũng sẽ bị xóa.')) {
+                try {
+                    const response = await fetch(`/api/users/${userId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'x-username': localStorage.getItem('username') || ''
+                        }
+                    });
+
+                    if (response.status === 401) {
+                        window.location.href = 'login.html';
+                        return;
+                    }
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.error || 'Xóa không thành công');
+                    }
+
+                    alert('Xóa khách hàng thành công!');
+                    window.location.href = 'list.html';
+                } catch (error) {
+                    console.error('Lỗi:', error);
+                    alert(error.message || 'Lỗi khi xóa khách hàng');
+                }
             }
         }
     </script>

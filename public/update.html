@@ -211,10 +211,14 @@
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
                 <li><a href="register.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
-                <li><a href="list.html"><i class="fas fa-users"></i> Quản lý</a></li>
+                <li><a href="list.html"><i class="fas fa-users"></i> Khách hàng</a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> Sản phẩm</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
             </ul>
         </nav>
     </header>
+
+    <script src="js/auth.js"></script>
 
     <main>
         <div class="form-container glass reveal">
@@ -272,7 +276,7 @@
             </form>
             
             <div class="form-footer">
-                <a href="view.html"><i class="fas fa-arrow-left"></i> Quay lại thông tin cá nhân</a>
+                <a id="viewLink" href="view.html"><i class="fas fa-arrow-left"></i> Quay lại thông tin cá nhân</a>
             </div>
         </div>
     </main>
@@ -298,17 +302,30 @@
         
         async function loadUserData(userId) {
             try {
-                const response = await fetch('/api/users');
+                const response = await fetch(`/api/users/${userId}`, {
+                    headers: {
+                        'x-username': localStorage.getItem('username') || ''
+                    }
+                });
+
+                if (response.status === 401) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
                 if (!response.ok) throw new Error('Không thể tải dữ liệu');
-                const users = await response.json();
-                const user = users.find(u => u.user_id == userId);
+                
+                const user = await response.json();
                 
                 if (user) {
                     document.getElementById('username').value = user.user_name;
                     document.getElementById('email').value = user.user_email;
+                    // Cập nhật link quay lại với ID
+                    document.getElementById('viewLink').href = `view.html?id=${user.user_id}`;
                 }
             } catch (error) {
                 console.error('Lỗi:', error);
+                showNotification('Lỗi khi tải dữ liệu người dùng', 'error');
             }
         }
         
@@ -327,9 +344,15 @@
             }
         }
         
-        document.getElementById('updateForm').addEventListener('submit', function(e) {
+        document.getElementById('updateForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('id');
+            if (!userId) return;
+
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
             
@@ -342,12 +365,37 @@
                 return;
             }
             
-            // TODO: Implement update API call
-            showNotification('Cập nhật thông tin thành công!', 'success');
-            
-            setTimeout(() => {
-                window.location.href = 'list.html';
-            }, 1500);
+            try {
+                const updateData = { username, email };
+                if (password) updateData.password = password;
+
+                const response = await fetch(`/api/users/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-username': localStorage.getItem('username') || ''
+                    },
+                    body: JSON.stringify(updateData)
+                });
+
+                if (response.status === 401) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Cập nhật không thành công');
+                }
+
+                showNotification('Cập nhật thông tin thành công!', 'success');
+                setTimeout(() => {
+                    window.location.href = `view.html?id=${userId}`;
+                }, 1500);
+            } catch (error) {
+                console.error('Lỗi:', error);
+                showNotification(error.message || 'Lỗi khi cập nhật thông tin', 'error');
+            }
         });
         
         function showNotification(message, type) {

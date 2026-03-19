@@ -15,13 +15,13 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-        
+
         .page-title {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-        
+
         .page-icon {
             width: 50px;
             height: 50px;
@@ -33,19 +33,19 @@
             font-size: 1.5rem;
             color: #fff;
         }
-        
+
         .page-title h2 {
             font-size: 1.75rem;
             font-weight: 700;
             margin: 0;
         }
-        
+
         .page-subtitle {
             color: var(--text-secondary);
             font-size: 0.9rem;
             margin-top: 0.25rem;
         }
-        
+
         .btn-add {
             display: inline-flex;
             align-items: center;
@@ -60,19 +60,19 @@
             text-decoration: none;
             transition: var(--transition);
         }
-        
+
         .btn-add:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(35, 134, 54, 0.4);
         }
-        
+
         .search-bar {
             display: flex;
             gap: 1rem;
             margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
-        
+
         .search-input {
             flex: 1;
             min-width: 250px;
@@ -86,19 +86,19 @@
             font-size: 1rem;
             transition: var(--transition);
         }
-        
+
         .search-input:focus {
             outline: none;
             border-color: var(--link-color);
             box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
         }
-        
+
         .search-wrapper {
             position: relative;
             flex: 1;
             min-width: 250px;
         }
-        
+
         .search-icon {
             position: absolute;
             left: 1rem;
@@ -106,7 +106,7 @@
             transform: translateY(-50%);
             color: var(--text-secondary);
         }
-        
+
         .filter-select {
             padding: 0.75rem 1.25rem;
             background: rgba(13, 17, 23, 0.8);
@@ -118,12 +118,12 @@
             cursor: pointer;
             transition: var(--transition);
         }
-        
+
         .filter-select:focus {
             outline: none;
             border-color: var(--link-color);
         }
-        
+
         .table-container {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
@@ -131,16 +131,16 @@
             overflow: hidden;
             margin-bottom: 1.5rem;
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        
+
         thead {
             background: rgba(255, 255, 255, 0.03);
         }
-        
+
         th {
             padding: 1.25rem;
             text-align: left;
@@ -151,57 +151,57 @@
             color: var(--text-secondary);
             border-bottom: 1px solid var(--border-color);
         }
-        
+
         td {
             padding: 1rem 1.25rem;
             border-bottom: 1px solid var(--border-color);
             transition: var(--transition);
         }
-        
+
         tbody tr {
             transition: var(--transition);
         }
-        
+
         tbody tr:hover {
             background: rgba(255, 255, 255, 0.03);
         }
-        
+
         .user-cell {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-        
+
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             background: linear-gradient(135deg, #f093fb, #f5576c);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #fff;
             flex-shrink: 0;
         }
-        
+
         .user-info {
             display: flex;
             flex-direction: column;
         }
-        
+
         .user-name {
             font-weight: 600;
             color: var(--text-primary);
         }
-        
+
         .user-email {
             font-size: 0.85rem;
             color: var(--text-secondary);
             margin-top: 0.15rem;
         }
-        
+
         .user-id {
             font-family: 'Courier New', monospace;
             background: rgba(255, 255, 255, 0.05);
@@ -210,12 +210,32 @@
             font-size: 0.85rem;
             color: var(--text-secondary);
         }
-        
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: rgba(35, 134, 54, 0.15);
+            color: #238636;
+        }
+
+        .badge-inactive {
+            background: rgba(13, 17, 23, 0.5);
+            color: var(--text-secondary);
+        }
+
         .action-buttons {
             display: flex;
             gap: 0.5rem;
         }
-        
+
         .action-btn {
             width: 36px;
             height: 36px;
@@ -228,40 +248,40 @@
             transition: var(--transition);
             text-decoration: none;
         }
-        
+
         .action-btn.view {
             background: rgba(88, 166, 255, 0.15);
             color: var(--link-color);
         }
-        
+
         .action-btn.view:hover {
             background: var(--link-color);
             color: #fff;
             transform: scale(1.1);
         }
-        
+
         .action-btn.edit {
             background: rgba(46, 160, 67, 0.15);
             color: var(--accent-light);
         }
-        
+
         .action-btn.edit:hover {
             background: var(--accent-light);
             color: #fff;
             transform: scale(1.1);
         }
-        
+
         .action-btn.delete {
             background: rgba(248, 81, 73, 0.15);
             color: var(--danger-color);
         }
-        
+
         .action-btn.delete:hover {
             background: var(--danger-color);
             color: #fff;
             transform: scale(1.1);
         }
-        
+
         .pagination {
             display: flex;
             justify-content: space-between;
@@ -269,17 +289,17 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-        
+
         .pagination-info {
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
-        
+
         .pagination-controls {
             display: flex;
             gap: 0.5rem;
         }
-        
+
         .pagination-btn {
             display: flex;
             align-items: center;
@@ -296,27 +316,27 @@
             text-decoration: none;
             font-size: 0.9rem;
         }
-        
+
         .pagination-btn:hover:not(.active):not(:disabled) {
             background: rgba(255, 255, 255, 0.08);
             border-color: var(--link-color);
         }
-        
+
         .pagination-btn.active {
             background: var(--link-color);
             border-color: var(--link-color);
         }
-        
+
         .pagination-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-        
+
         .loading-state {
             text-align: center;
             padding: 4rem 2rem;
         }
-        
+
         .loading-spinner {
             width: 50px;
             height: 50px;
@@ -326,28 +346,28 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem;
         }
-        
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
+
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
         }
-        
+
         .empty-icon {
             font-size: 4rem;
             color: var(--text-secondary);
             opacity: 0.5;
             margin-bottom: 1rem;
         }
-        
+
         .empty-text {
             color: var(--text-secondary);
             font-size: 1.1rem;
         }
-        
+
         .notification {
             position: fixed;
             top: 1rem;
@@ -362,40 +382,175 @@
             transition: transform 0.3s ease;
             z-index: 1000;
         }
-        
+
         .notification.show {
             transform: translateX(0);
         }
-        
+
         .notification.success {
             background: rgba(35, 134, 54, 0.9);
             color: #fff;
         }
-        
+
         .notification.error {
             background: rgba(248, 81, 73, 0.9);
             color: #fff;
         }
-        
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, rgba(22, 27, 34, 0.98), rgba(13, 17, 23, 0.98));
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.show .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .modal-title i {
+            color: #f093fb;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--danger-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(13, 17, 23, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #f093fb;
+            box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.15);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(240, 147, 251, 0.4);
+        }
+
         @media (max-width: 768px) {
             .page-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            
+
             table {
                 font-size: 0.85rem;
             }
-            
+
             th, td {
                 padding: 0.75rem 0.5rem;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
                 gap: 0.25rem;
             }
-            
+
             .action-btn {
                 width: 32px;
                 height: 32px;
@@ -413,10 +568,14 @@
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
                 <li><a href="register.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
-                <li><a href="list.html" class="active"><i class="fas fa-users"></i> Quản lý</a></li>
+                <li><a href="list.html" class="active"><i class="fas fa-users"></i> Khách hàng</a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> Sản phẩm</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
             </ul>
         </nav>
     </header>
+
+    <script src="js/auth.js"></script>
 
     <main>
         <div class="glass reveal" style="padding: 2rem;">
@@ -430,11 +589,11 @@
                         <p class="page-subtitle">Quản lý tất cả người dùng trong hệ thống</p>
                     </div>
                 </div>
-                <a href="register.html" class="btn-add">
+                <button class="btn-add" onclick="openAddModal()">
                     <i class="fas fa-user-plus"></i> Thêm mới
-                </a>
+                </button>
             </div>
-            
+
             <div class="search-bar">
                 <div class="search-wrapper">
                     <i class="fas fa-search search-icon"></i>
@@ -446,7 +605,7 @@
                     <option value="inactive">Không hoạt động</option>
                 </select>
             </div>
-            
+
             <div class="table-container">
                 <table>
                     <thead>
@@ -455,12 +614,13 @@
                             <th>Người dùng</th>
                             <th>Email</th>
                             <th>Ngày tạo</th>
-                            <th>Thao tác</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody id="userTableBody">
                         <tr>
-                            <td colspan="5" class="loading-state">
+                            <td colspan="6" class="loading-state">
                                 <div class="loading-spinner"></div>
                                 <p>Đang tải dữ liệu...</p>
                             </td>
@@ -468,7 +628,7 @@
                     </tbody>
                 </table>
             </div>
-            
+
             <div class="pagination">
                 <div class="pagination-info">
                     Hiển thị <span id="showingStart">1</span> - <span id="showingEnd">0</span> của <span id="totalItems">0</span> người dùng
@@ -477,8 +637,8 @@
                     <button class="pagination-btn" id="prevBtn" disabled>
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="pagination-btn active">1</button>
-                    <button class="pagination-btn" id="nextBtn">
+                    <div id="paginationNumbers"></div>
+                    <button class="pagination-btn" id="nextBtn" disabled>
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
@@ -486,39 +646,83 @@
         </div>
     </main>
 
+    <!-- Modal Thêm/Sửa người dùng -->
+    <div class="modal-overlay" id="userModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-user-plus"></i>
+                    <span id="modalTitle">Thêm người dùng mới</span>
+                </h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="userForm" onsubmit="handleFormSubmit(event)">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label class="form-label" for="username">Tên đăng nhập <span style="color: #f85149">*</span></label>
+                    <input type="text" class="form-input" id="username" required placeholder="Nhập tên đăng nhập">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email">Email <span style="color: #f85149">*</span></label>
+                    <input type="email" class="form-input" id="email" required placeholder="Nhập email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Mật khẩu <span style="color: #f85149">*</span></label>
+                    <input type="password" class="form-input" id="password" required placeholder="Nhập mật khẩu">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Hủy</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Lưu thông tin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <footer>
         <p><i class="fas fa-code"></i> Lập trình web @01/2024</p>
     </footer>
-    
+
     <div id="notification" class="notification">
         <i class="fas fa-check-circle"></i>
         <span id="notificationMessage">Thành công!</span>
     </div>
-    
+
     <script>
         let allUsers = [];
         let filteredUsers = [];
         const itemsPerPage = 10;
         let currentPage = 1;
-        
+
         document.addEventListener('DOMContentLoaded', async () => {
             await loadUsers();
-            
+
             document.getElementById('searchInput').addEventListener('input', (e) => {
                 filterUsers(e.target.value, document.getElementById('statusFilter').value);
             });
-            
+
             document.getElementById('statusFilter').addEventListener('change', (e) => {
                 filterUsers(document.getElementById('searchInput').value, e.target.value);
             });
-            
+
             document.getElementById('prevBtn').addEventListener('click', () => changePage(-1));
             document.getElementById('nextBtn').addEventListener('click', () => changePage(1));
         });
-        
+
         async function loadUsers() {
             try {
-                const response = await fetch('/api/users');
+                const response = await fetch('/api/customers', {
+                    headers: {
+                        'x-username': localStorage.getItem('username') || ''
+                    }
+                });
+                
+                if (response.status === 401) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
                 if (!response.ok) throw new Error('Không thể tải dữ liệu');
                 allUsers = await response.json();
                 filteredUsers = [...allUsers];
@@ -529,7 +733,7 @@
                 showNotification('Không thể tải dữ liệu người dùng', 'error');
                 document.getElementById('userTableBody').innerHTML = `
                     <tr>
-                        <td colspan="5" class="empty-state">
+                        <td colspan="6" class="empty-state">
                             <div class="empty-icon"><i class="fas fa-database"></i></div>
                             <p class="empty-text">Không thể kết nối đến cơ sở dữ liệu</p>
                         </td>
@@ -537,28 +741,28 @@
                 `;
             }
         }
-        
+
         function filterUsers(search, status) {
             search = search.toLowerCase().trim();
             filteredUsers = allUsers.filter(user => {
-                const matchSearch = !search || 
-                    user.user_name.toLowerCase().includes(search) || 
+                const matchSearch = !search ||
+                    user.user_name.toLowerCase().includes(search) ||
                     user.user_email.toLowerCase().includes(search);
-                const matchStatus = !status || true; // Implement status logic if needed
+                const matchStatus = !status || true;
                 return matchSearch && matchStatus;
             });
             currentPage = 1;
             renderTable();
             updatePagination();
         }
-        
+
         function renderTable() {
             const tbody = document.getElementById('userTableBody');
-            
+
             if (filteredUsers.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="5" class="empty-state">
+                        <td colspan="6" class="empty-state">
                             <div class="empty-icon"><i class="fas fa-user-slash"></i></div>
                             <p class="empty-text">Không tìm thấy người dùng nào</p>
                         </td>
@@ -566,14 +770,16 @@
                 `;
                 return;
             }
-            
+
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
             const usersToShow = filteredUsers.slice(start, end);
-            
+
             tbody.innerHTML = usersToShow.map((user, index) => {
                 const initial = user.user_name.charAt(0).toUpperCase();
                 const date = user.created_at ? new Date(user.created_at).toLocaleDateString('vi-VN') : 'N/A';
+                const isActive = user.user_email.includes('@');
+                
                 return `
                     <tr style="animation: fadeInUp 0.3s ease forwards; animation-delay: ${index * 0.05}s">
                         <td><span class="user-id">#${user.user_id}</span></td>
@@ -582,19 +788,26 @@
                                 <div class="user-avatar">${initial}</div>
                                 <div class="user-info">
                                     <span class="user-name">${escapeHtml(user.user_name)}</span>
+                                    <span class="user-email" style="font-size: 0.75rem; color: var(--text-secondary);">ID: ${user.user_id}</span>
                                 </div>
                             </div>
                         </td>
                         <td>${escapeHtml(user.user_email)}</td>
                         <td>${date}</td>
                         <td>
+                            <span class="badge ${isActive ? 'badge-active' : 'badge-inactive'}">
+                                <i class="fas fa-circle" style="font-size: 6px;"></i>
+                                ${isActive ? 'Hoạt động' : 'Không hoạt động'}
+                            </span>
+                        </td>
+                        <td>
                             <div class="action-buttons">
                                 <a href="view.html?id=${user.user_id}" class="action-btn view" title="Xem chi tiết">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="update.html?id=${user.user_id}" class="action-btn edit" title="Chỉnh sửa">
+                                <button class="action-btn edit" onclick="editUser(${user.user_id})" title="Chỉnh sửa">
                                     <i class="fas fa-edit"></i>
-                                </a>
+                                </button>
                                 <button class="action-btn delete" onclick="deleteUser(${user.user_id})" title="Xóa">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -603,56 +816,224 @@
                     </tr>
                 `;
             }).join('');
-            
-            document.getElementById('showingStart').textContent = start + 1;
+
+            document.getElementById('showingStart').textContent = filteredUsers.length > 0 ? start + 1 : 0;
             document.getElementById('showingEnd').textContent = Math.min(end, filteredUsers.length);
             document.getElementById('totalItems').textContent = filteredUsers.length;
         }
-        
+
         function updatePagination() {
             const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
-            
+            const paginationNumbers = document.getElementById('paginationNumbers');
+
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+
+            let pagesHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                pagesHTML += `
+                    <button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+            paginationNumbers.innerHTML = pagesHTML;
         }
-        
+
+        function goToPage(page) {
+            currentPage = page;
+            renderTable();
+            updatePagination();
+        }
+
         function changePage(delta) {
             currentPage += delta;
             renderTable();
             updatePagination();
         }
-        
-        function deleteUser(userId) {
-            if (confirm('Bạn có chắc chắn muốn xóa người dùng #' + userId + '?')) {
-                // TODO: Implement delete API call
-                showNotification('Xóa người dùng thành công!', 'success');
-                loadUsers();
+
+        // Modal functions
+        function openAddModal() {
+            document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-plus"></i> Thêm người dùng mới';
+            document.getElementById('userForm').reset();
+            document.getElementById('userId').value = '';
+            document.getElementById('password').required = true;
+            document.getElementById('userModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('userModal').classList.remove('show');
+        }
+
+        async function editUser(userId) {
+            try {
+                const response = await fetch(`/api/customers/${userId}`, {
+                    headers: {
+                        'x-username': localStorage.getItem('username') || ''
+                    }
+                });
+                
+                if (response.status === 401) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                if (!response.ok) throw new Error('Không thể tải thông tin người dùng');
+                
+                const user = await response.json();
+                
+                document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-edit"></i> Chỉnh sửa người dùng';
+                document.getElementById('userId').value = user.user_id;
+                document.getElementById('username').value = user.user_name;
+                document.getElementById('email').value = user.user_email;
+                document.getElementById('password').value = '';
+                document.getElementById('password').required = false;
+                document.getElementById('password').placeholder = 'Để trống nếu không đổi mật khẩu';
+                
+                document.getElementById('userModal').classList.add('show');
+            } catch (error) {
+                console.error('Lỗi:', error);
+                showNotification('Không thể tải thông tin người dùng', 'error');
             }
         }
-        
+
+        async function deleteUser(userId) {
+            if (!confirm('Bạn có chắc chắn muốn xóa người dùng #' + userId + '?\n\nLưu ý: Tất cả đơn hàng liên quan cũng sẽ bị xóa.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/customers/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'x-username': localStorage.getItem('username') || ''
+                    }
+                });
+
+                if (response.status === 401) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Xóa không thành công');
+                }
+
+                showNotification('Xóa người dùng thành công!', 'success');
+                await loadUsers();
+            } catch (error) {
+                console.error('Lỗi:', error);
+                showNotification(error.message || 'Lỗi khi xóa người dùng', 'error');
+            }
+        }
+
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const userId = document.getElementById('userId').value;
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!username || !email) {
+                showNotification('Vui lòng điền đầy đủ thông tin', 'error');
+                return;
+            }
+
+            try {
+                let response;
+                let options;
+
+                if (userId) {
+                    // Update user
+                    const updateData = { username, email };
+                    if (password) updateData.password = password;
+
+                    options = {
+                        method: 'PUT',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'x-username': localStorage.getItem('username') || ''
+                        },
+                        body: JSON.stringify(updateData)
+                    };
+                    response = await fetch(`/api/customers/${userId}`, options);
+                } else {
+                    // Create new user
+                    if (!password) {
+                        showNotification('Vui lòng nhập mật khẩu', 'error');
+                        return;
+                    }
+
+                    options = {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'x-username': localStorage.getItem('username') || ''
+                        },
+                        body: JSON.stringify({ username, email, password })
+                    };
+                    response = await fetch('/api/customers', options);
+                }
+
+                if (response.status === 401) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Thao tác không thành công');
+                }
+
+                const result = await response.json();
+                showNotification(result.message || 'Thành công!', 'success');
+                closeModal();
+                await loadUsers();
+            } catch (error) {
+                console.error('Lỗi:', error);
+                showNotification(error.message || 'Lỗi khi lưu thông tin', 'error');
+            }
+        }
+
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
-        
+
         function showNotification(message, type) {
             const notification = document.getElementById('notification');
             const notificationMessage = document.getElementById('notificationMessage');
             const icon = notification.querySelector('i');
-            
+
             notificationMessage.textContent = message;
             notification.className = 'notification ' + type;
             icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-            
+
             notification.classList.add('show');
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
         }
+
+        // Close modal when clicking outside
+        document.getElementById('userModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('userModal')) {
+                closeModal();
+            }
+        });
+
+        // Close modal when pressing ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('userModal').classList.contains('show')) {
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>
