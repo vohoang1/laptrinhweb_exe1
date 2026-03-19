@@ -3,56 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ | Lập trình Web @01/2024</title>
-    <link rel="stylesheet" href="public/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Danh sách Người dùng</title>
+    <!-- Tích hợp Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tích hợp FontAwesome cho Icon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS cho hiệu ứng Glassmorphism và Animations -->
+    <style>
+        body {
+            /* Background gradient hiện đại */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        /* Hiệu ứng kính mờ */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        /* Animation xuất hiện mượt mà */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <nav>
-            <div class="logo">WebDev Lab</div>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="login.html">Đăng nhập</a></li>
-                <li><a href="register.html">Đăng ký</a></li>
-                <li><a href="list.html">Quản lý</a></li>
-            </ul>
-        </nav>
-    </header>
+<body class="text-white py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-16 fade-in" style="animation-delay: 0.1s;">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg tracking-tight">
+                <i class="fas fa-users-cog mr-3 text-pink-300"></i>Quản lý Người dùng
+            </h1>
+            <p class="text-lg text-gray-200 font-light">Hệ thống hiển thị dữ liệu từ MySQL Backend</p>
+        </header>
 
-    <main>
-        <section class="hero reveal">
-            <div class="glass hero-content">
-                <h1>Chào mừng đến với <span class="gradient-text">Lab 03</span></h1>
-                <p>Thiết kế giao diện hiện đại với HTML/CSS/JS và quản lý mã nguồn bằng Git. Khám phá các chức năng quản lý người dùng với trải nghiệm mượt mà.</p>
-                <div class="hero-actions">
-                    <a href="login.html" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Bắt đầu ngay</a>
-                    <a href="list.html" class="btn btn-outline"><i class="fas fa-users"></i> Xem danh sách</a>
-                </div>
+        <main>
+            <!-- Trạng thái Đang tải -->
+            <div id="loading" class="text-center text-2xl font-semibold mb-8 fade-in" style="animation-delay: 0.2s;">
+                <i class="fas fa-circle-notch fa-spin mr-3 text-pink-300"></i> Đang tải dữ liệu...
             </div>
-        </section>
 
-        <section class="features grid">
-            <div class="glass feature-card reveal" style="transition-delay: 0.1s;">
-                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-                <h3>Hiệu năng</h3>
-                <p>Tối ưu hóa tốc độ tải trang và phản hồi người dùng tức thì.</p>
+            <!-- Thông báo Lỗi (nếu có) -->
+            <div id="error" class="hidden bg-red-500 bg-opacity-80 text-white p-4 rounded-xl mb-8 text-center glass max-w-2xl mx-auto">
             </div>
-            <div class="glass feature-card reveal" style="transition-delay: 0.2s;">
-                <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
-                <h3>Bảo mật</h3>
-                <p>Hệ thống quản lý quyền truy cập và dữ liệu an toàn tuyệt đối.</p>
-            </div>
-            <div class="glass feature-card reveal" style="transition-delay: 0.3s;">
-                <div class="feature-icon"><i class="fas fa-paint-roller"></i></div>
-                <h3>Giao diện</h3>
-                <p>Thiết kế Glassmorphism hiện đại, sang trọng và chuẩn Responsive.</p>
-            </div>
-        </section>
-    </main>
 
-    <footer>
-        <p>Lập trình web @01/2024</p>
-    </footer>
+            <!-- Lưới danh sách người dùng -->
+            <div id="userGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 hidden">
+                <!-- Các thẻ người dùng sẽ được Javascript render vào đây -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userGrid = document.getElementById('userGrid');
+            const loading = document.getElementById('loading');
+            const errorDiv = document.getElementById('error');
+
+            try {
+                // Gọi API từ Backend Node.js
+                const response = await fetch('/api/users');
+                if (!response.ok) throw new Error('Không thể lấy dữ liệu từ máy chủ. Vui lòng kiểm tra lại kết nối DB.');
+                const users = await response.json();
+
+                loading.classList.add('hidden');
+
+                if (users.length === 0) {
+                    errorDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i> Không có người dùng nào trong cơ sở dữ liệu.';
+                    errorDiv.classList.remove('hidden');
+                    return;
+                }
+
+                userGrid.classList.remove('hidden');
+
+                // Render từng người dùng dưới dạng Thẻ (Card)
+                users.forEach((user, index) => {
+                    const card = document.createElement('div');
+                    // Thêm class glassmorphism và hiệu ứng hover
+                    card.className = `glass rounded-2xl p-6 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in flex flex-col`;
+                    // Tạo độ trễ animation để các thẻ xuất hiện lần lượt
+                    card.style.animationDelay = `${0.2 + (index * 0.1)}s`;
+
+                    // Lấy chữ cái đầu của tên làm avatar
+                    const initial = user.user_name ? user.user_name.charAt(0).toUpperCase() : '?';
+
+                    card.innerHTML = `
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-tr from-pink-400 to-yellow-400 rounded-full flex items-center justify-center text-2xl font-bold shadow-inner flex-shrink-0">
+                                ${initial}
+                            </div>
+                            <div class="ml-4 overflow-hidden">
+                                <h3 class="text-xl font-bold leading-tight truncate" title="${user.user_name}">${user.user_name}</h3>
+                                <span class="text-sm text-pink-200 font-medium">ID: #${user.user_id}</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto pt-4 border-t border-white border-opacity-20">
+                            <div class="flex items-center text-gray-100 group">
+                                <i class="fas fa-envelope mr-3 text-pink-300 group-hover:text-white transition-colors"></i>
+                                <a href="mailto:${user.user_email}" class="hover:text-white transition-colors truncate text-sm" title="${user.user_email}">
+                                    ${user.user_email}
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    userGrid.appendChild(card);
+                });
+
+            } catch (error) {
+                loading.classList.add('hidden');
+                errorDiv.innerHTML = `<i class="fas fa-times-circle mr-2"></i> Lỗi: ${error.message}`;
+                errorDiv.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
