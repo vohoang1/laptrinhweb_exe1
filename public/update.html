@@ -4,49 +4,367 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cập nhật thông tin | Lập trình Web @01/2024</title>
-    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--link-color), #4090ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.4);
+        }
+        
+        .form-subtitle {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .form-group label i {
+            color: var(--accent-light);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            padding-left: 3rem;
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--link-color);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 2.6rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .form-group:focus-within .input-icon {
+            color: var(--link-color);
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 2.6rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .password-toggle:hover {
+            color: var(--link-color);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+            color: #fff;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(35, 134, 54, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-primary);
+        }
+        
+        .form-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .form-footer a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: rgba(35, 134, 54, 0.9);
+            color: #fff;
+        }
+        
+        .notification.error {
+            background: rgba(248, 81, 73, 0.9);
+            color: #fff;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .shake {
+            animation: shake 0.5s ease;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">WebDev Lab</div>
+            <div class="logo">
+                <i class="fas fa-code"></i> WebDev Lab
+            </div>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="login.html">Đăng nhập</a></li>
-                <li><a href="register.html">Đăng ký</a></li>
-                <li><a href="list.html">Quản lý</a></li>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+                <li><a href="register.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+                <li><a href="list.html"><i class="fas fa-users"></i> Quản lý</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <div class="form-container glass" style="max-width: 500px;">
-            <h2 class="form-title">Chỉnh sửa thông tin</h2>
-            <form action="list.html" method="GET">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" class="form-control" value="test1" required>
+        <div class="form-container glass reveal">
+            <div class="form-header">
+                <div class="form-icon">
+                    <i class="fas fa-user-edit"></i>
                 </div>
+                <h2 class="form-title">Chỉnh sửa thông tin</h2>
+                <p class="form-subtitle">Cập nhật thông tin tài khoản của bạn</p>
+            </div>
+            
+            <form id="updateForm">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" value="test1@gmail.com" required>
+                    <label for="username">
+                        <i class="fas fa-user"></i> Username
+                    </label>
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="username" class="form-control" placeholder="Nhập tên đăng nhập" required>
                 </div>
-                <div class="form-group">
-                    <label for="password">Mật khẩu mới (để trống nếu không đổi)</label>
-                    <input type="password" id="password" class="form-control" placeholder=" Nhập mật khẩu mới">
-                </div>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu thay đổi</button>
                 
-                <div class="form-footer">
-                    <a href="list.html">Hủy và quay lại</a>
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" class="form-control" placeholder="example@gmail.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Mật khẩu mới
+                    </label>
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" class="form-control" placeholder="Để trống nếu không đổi">
+                    <i class="fas fa-eye password-toggle" onclick="togglePassword('password')"></i>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">
+                        <i class="fas fa-lock"></i> Xác nhận mật khẩu
+                    </label>
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="confirm-password" class="form-control" placeholder="Nhập lại mật khẩu">
+                    <i class="fas fa-eye password-toggle" onclick="togglePassword('confirm-password')"></i>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Lưu thay đổi
+                    </button>
+                    <a href="list.html" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Hủy
+                    </a>
                 </div>
             </form>
+            
+            <div class="form-footer">
+                <a href="view.html"><i class="fas fa-arrow-left"></i> Quay lại thông tin cá nhân</a>
+            </div>
         </div>
     </main>
 
     <footer>
-        <p>Lập trình web @01/2024</p>
+        <p><i class="fas fa-code"></i> Lập trình web @01/2024</p>
     </footer>
+    
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationMessage">Thành công!</span>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('id');
+            
+            if (userId) {
+                loadUserData(userId);
+            }
+        });
+        
+        async function loadUserData(userId) {
+            try {
+                const response = await fetch('/api/users');
+                if (!response.ok) throw new Error('Không thể tải dữ liệu');
+                const users = await response.json();
+                const user = users.find(u => u.user_id == userId);
+                
+                if (user) {
+                    document.getElementById('username').value = user.user_name;
+                    document.getElementById('email').value = user.user_email;
+                }
+            } catch (error) {
+                console.error('Lỗi:', error);
+            }
+        }
+        
+        function togglePassword(fieldId) {
+            const input = document.getElementById(fieldId);
+            const icon = input.nextElementSibling.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        
+        document.getElementById('updateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password && password !== confirmPassword) {
+                showNotification('Mật khẩu xác nhận không khớp!', 'error');
+                document.getElementById('confirm-password').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('confirm-password').classList.remove('shake');
+                }, 500);
+                return;
+            }
+            
+            // TODO: Implement update API call
+            showNotification('Cập nhật thông tin thành công!', 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'list.html';
+            }, 1500);
+        });
+        
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notificationMessage');
+            const icon = notification.querySelector('i');
+            
+            notificationMessage.textContent = message;
+            notification.className = 'notification ' + type;
+            icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
