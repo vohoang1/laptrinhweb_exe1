@@ -309,10 +309,14 @@
                 <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="login.html" class="active"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
                 <li><a href="register.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
-                <li><a href="list.html"><i class="fas fa-users"></i> Quản lý</a></li>
+                <li><a href="list.html"><i class="fas fa-users"></i> Khách hàng</a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> Sản phẩm</a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
             </ul>
         </nav>
     </header>
+
+    <script src="js/auth.js"></script>
 
     <main>
         <div class="form-container glass reveal">
@@ -399,20 +403,42 @@
             }
         }
         
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const username = document.getElementById('username').value;
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
             
-            // TODO: Implement login API call
-            if (username && password) {
-                showNotification('Đăng nhập thành công! Đang chuyển hướng...', 'success');
-                setTimeout(() => {
-                    window.location.href = 'list.html';
-                }, 1500);
-            } else {
+            if (!username || !password) {
                 showNotification('Vui lòng nhập đầy đủ thông tin!', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showNotification('Đăng nhập thành công! Đang chuyển hướng...', 'success');
+                    
+                    // Lưu trạng thái đăng nhập
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('username', username);
+
+                    setTimeout(() => {
+                        window.location.href = 'list.html';
+                    }, 1500);
+                } else {
+                    showNotification(data.error || 'Sai tên đăng nhập hoặc mật khẩu!', 'error');
+                }
+            } catch (error) {
+                console.error('Lỗi khi đăng nhập:', error);
+                showNotification('Không thể kết nối đến máy chủ!', 'error');
             }
         });
         

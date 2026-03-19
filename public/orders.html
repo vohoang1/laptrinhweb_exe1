@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách đơn hàng | Lập trình Web @01/2024</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* CSS from list.html */
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .page-title { display: flex; align-items: center; gap: 1rem; }
+        .page-icon { width: 50px; height: 50px; background: linear-gradient(135deg, var(--accent-light), #58a6ff); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; }
+        .page-title h2 { font-size: 1.75rem; font-weight: 700; margin: 0; }
+        .page-subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem; }
+        .search-bar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .search-input { flex: 1; min-width: 250px; padding: 0.75rem 1.25rem; padding-left: 3rem; background: rgba(13, 17, 23, 0.8); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-primary); font-family: inherit; font-size: 1rem; transition: var(--transition); }
+        .search-input:focus { outline: none; border-color: var(--link-color); box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15); }
+        .search-wrapper { position: relative; flex: 1; min-width: 250px; }
+        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+        .table-container { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: rgba(255, 255, 255, 0.03); }
+        th { padding: 1.25rem; text-align: left; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); }
+        td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); transition: var(--transition); }
+        tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+        .badge { padding: 0.4rem 0.8rem; border-radius: 5px; font-size: 0.85rem; font-weight: bold; background: rgba(46, 160, 67, 0.15); color: var(--accent-light); }
+        .action-buttons { display: flex; gap: 0.5rem; }
+        .action-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: none; cursor: pointer; transition: var(--transition); text-decoration: none; }
+        .action-btn.view { background: rgba(88, 166, 255, 0.15); color: var(--link-color); }
+        .action-btn.view:hover { background: var(--link-color); color: #fff; transform: scale(1.1); }
+        .empty-state { text-align: center; padding: 4rem 2rem; }
+        .empty-icon { font-size: 4rem; color: var(--text-secondary); opacity: 0.5; margin-bottom: 1rem; }
+        .empty-text { color: var(--text-secondary); font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-code"></i> WebDev Lab
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+                <li><a href="register.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+                <li><a href="list.html"><i class="fas fa-users"></i> Khách hàng</a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> Sản phẩm</a></li>
+                <li><a href="orders.html" class="active"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="glass reveal" style="padding: 2rem;">
+            <div class="page-header">
+                <div class="page-title">
+                    <div class="page-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div>
+                        <h2>Danh sách đơn hàng</h2>
+                        <p class="page-subtitle">Theo dõi lịch sử mua hàng</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="search-bar">
+                <select id="querySelect" class="search-input" style="flex: 1; min-width: 250px; padding-left: 1rem;">
+                    <option value="default">-- Truy vấn mặc định --</option>
+                    <option value="b1">1. Mã KH, Tên, Mã Đơn</option>
+                    <option value="b2">2. Tổng số Đơn hàng/KH</option>
+                    <option value="b3">3. Số SP mỗi hóa đơn</option>
+                    <option value="b4">4. Chi tiết mua hàng/Đơn</option>
+                    <option value="b5">5. Top 7 người nhiều Đơn nhất</option>
+                    <option value="b6">6. Top 7 mua Samsung/Apple</option>
+                    <option value="b7">7. Tổng tiền từng hóa đơn</option>
+                    <option value="b8">8. Hóa đơn giá CAO NHẤT/KH</option>
+                    <option value="b9">9. Hóa đơn giá THẤP NHẤT/KH</option>
+                    <option value="b10">10. Hóa đơn NHIỀU SP nhất/KH</option>
+                </select>
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Tìm kiếm mã hoặc tên khách..." id="searchInput">
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead id="userTableHead"><tr><th>Đang tải...</th></tr></thead>
+                    <tbody id="orderTableBody">
+                        <tr>
+                            <td colspan="7" class="empty-state">
+                                <div><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p><i class="fas fa-code"></i> Lập trình web @01/2024</p>
+    </footer>
+    
+    
+    <script src="js/auth.js"></script>
+    <script>
+        let allData = [];
+        const querySelect = document.getElementById('querySelect');
+        
+        async function loadData(q = 'default') {
+            try {
+                document.getElementById('userTableHead').innerHTML = '<tr><th>Đang tải...</th></tr>';
+                document.getElementById('orderTableBody').innerHTML = '<tr><td class="empty-state">Đang tải dữ liệu...</td></tr>';
+                
+                const response = await fetch('/api/orders?q=' + q, {
+                    headers: { 'x-username': localStorage.getItem('username') || '' }
+                });
+                if (response.status === 401) { window.location.href = 'login.html'; return; }
+                if (!response.ok) throw new Error('Failed');
+                
+                allData = await response.json();
+                renderTable(allData);
+            } catch(e) { 
+                document.getElementById('orderTableBody').innerHTML = '<tr><td>Lỗi tải dữ liệu</td></tr>'; 
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => { 
+            loadData(); 
+            if(querySelect) querySelect.addEventListener('change', e => loadData(e.target.value));
+            const searchInput = document.getElementById('searchInput');
+            if(searchInput) {
+                searchInput.addEventListener('input', e => {
+                    const search = e.target.value.toLowerCase();
+                    const filtered = allData.filter(item => 
+                        Object.values(item).some(val => String(val).toLowerCase().includes(search))
+                    );
+                    renderTable(filtered);
+                });
+            }
+        });
+
+        function renderTable(data) {
+            const thead = document.getElementById('userTableHead');
+            const tbody = document.getElementById('orderTableBody');
+            
+            if (!data || data.length === 0) {
+                thead.innerHTML = '<tr><th>Trống</th></tr>';
+                tbody.innerHTML = '<tr><td class="empty-state">Không có dữ liệu</td></tr>';
+                return;
+            }
+            
+            const keys = Object.keys(data[0]);
+            thead.innerHTML = '<tr>' + keys.map(k => '<th>' + k.replace(/_/g, ' ').toUpperCase() + '</th>').join('') + '</tr>';
+            
+            tbody.innerHTML = data.map((item, index) => {
+                let tds = keys.map(k => {
+                    let val = item[k] || '';
+                    if (k.includes('at')) val = new Date(val).toLocaleDateString('vi-VN');
+                    if (k.includes('price') || k.includes('tien')) val = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(val);
+                    return '<td>' + val + '</td>';
+                }).join('');
+                return '<tr>' + tds + '</tr>';
+            }).join('');
+            
+            const totalEl = document.getElementById('totalItems');
+            if(totalEl) totalEl.textContent = data.length;
+            const endEl = document.getElementById('showingEnd');
+            if(endEl) endEl.textContent = data.length;
+        }
+    </script>
+</body>
+</html>
