@@ -1,11 +1,20 @@
-# Sử dụng image Nginx nhẹ trên nền Alpine Linux
-FROM nginx:stable-alpine
+FROM node:18-alpine
 
-# Sao chép toàn bộ nội dung project vào thư mục phục vụ web của Nginx
-COPY . /usr/share/nginx/html
+WORKDIR /usr/src/app
 
-# Expose port 80
-EXPOSE 80
+# Khai báo biến môi trường cho DB connection
+ENV DB_HOST=db
+ENV DB_USER=root
+ENV DB_PASSWORD=root
+ENV DB_NAME=laptrinhweb
+ENV PORT=8080
 
-# Chạy Nginx ở chế độ foreground
-CMD ["nginx", "-g", "daemon off;"]
+COPY package*.json ./
+RUN npm install
+
+# Copy source code gồm cả thư mục public
+COPY . .
+
+EXPOSE 8080
+
+CMD ["node", "server.js"]
