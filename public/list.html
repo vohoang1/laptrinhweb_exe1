@@ -599,28 +599,46 @@
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" class="search-input" placeholder="Tìm kiếm theo tên hoặc email..." id="searchInput">
                 </div>
-                <select class="filter-select" id="statusFilter">
+                <select class="filter-select" id="statusFilter" style="display: none;">
                     <option value="">Tất cả trạng thái</option>
                     <option value="active">Hoạt động</option>
                     <option value="inactive">Không hoạt động</option>
                 </select>
             </div>
 
+            <div class="search-bar" style="margin-top: 1rem;">
+                <div class="search-wrapper">
+                    <i class="fas fa-database search-icon"></i>
+                    <select class="search-input" id="querySelect" style="padding-left: 3rem;">
+                        <option value="default">-- Chọn truy vấn SQL (Lab 04 - Users) --</option>
+                        <option value="a1">1. DS User theo Alphabet (A-Z)</option>
+                        <option value="a2">2. Lấy 7 User đầu tiên (A-Z)</option>
+                        <option value="a3">3. User theo A-Z có chữ 'a'</option>
+                        <option value="a4">4. User bắt đầu bằng chữ 'm'</option>
+                        <option value="a5">5. User kết thúc bằng chữ 'i'</option>
+                        <option value="a6">6. User dùng Gmail (@gmail.com)</option>
+                        <option value="a7">7. User Gmail + bắt đầu bằng 'm'</option>
+                        <option value="a8">8. User Gmail + có 'i' + tên > 5 ký tự</option>
+                        <option value="a9">9. User có 'a' + dài 5-9 + Gmail + 'i' trong tên email</option>
+                        <option value="a10">10. Truy vấn kết hợp phức tạp (OR conditions)</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="table-container">
-                <table>
-                    <thead>
+                <table id="dynamicTable">
+                    <thead id="tableHead">
                         <tr>
                             <th>ID</th>
                             <th>Người dùng</th>
                             <th>Email</th>
                             <th>Ngày tạo</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
+                            <th id="actionsHeader">Hành động</th>
                         </tr>
                     </thead>
                     <tbody id="userTableBody">
                         <tr>
-                            <td colspan="6" class="loading-state">
+                            <td colspan="5" class="loading-state">
                                 <div class="loading-spinner"></div>
                                 <p>Đang tải dữ liệu...</p>
                             </td>
@@ -699,20 +717,20 @@
             await loadUsers();
 
             document.getElementById('searchInput').addEventListener('input', (e) => {
-                filterUsers(e.target.value, document.getElementById('statusFilter').value);
+                filterUsers(e.target.value);
             });
 
-            document.getElementById('statusFilter').addEventListener('change', (e) => {
-                filterUsers(document.getElementById('searchInput').value, e.target.value);
+            document.getElementById('querySelect').addEventListener('change', (e) => {
+                loadUsers(e.target.value);
             });
 
             document.getElementById('prevBtn').addEventListener('click', () => changePage(-1));
             document.getElementById('nextBtn').addEventListener('click', () => changePage(1));
         });
 
-        async function loadUsers() {
+        async function loadUsers(queryType = 'default') {
             try {
-                const response = await fetch('/api/customers', {
+                const response = await fetch(`/api/users?q=${queryType}`, {
                     headers: {
                         'x-username': localStorage.getItem('username') || ''
                     }
@@ -758,67 +776,74 @@
 
         function renderTable() {
             const tbody = document.getElementById('userTableBody');
-
+            const thead = document.getElementById('tableHead');
+            
             if (filteredUsers.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="empty-state">
-                            <div class="empty-icon"><i class="fas fa-user-slash"></i></div>
-                            <p class="empty-text">Không tìm thấy người dùng nào</p>
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = `<tr><td colspan="10" class="empty-state"><div class="empty-icon"><i class="fas fa-user-slash"></i></div><p class="empty-text">Không tìm thấy dữ liệu nào</p></td></tr>`;
                 return;
             }
 
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const usersToShow = filteredUsers.slice(start, end);
-
-            tbody.innerHTML = usersToShow.map((user, index) => {
-                const initial = user.user_name.charAt(0).toUpperCase();
-                const date = user.created_at ? new Date(user.created_at).toLocaleDateString('vi-VN') : 'N/A';
-                const isActive = user.user_email.includes('@');
+            // Nếu không phải query mặc định, vẽ bảng động
+            const queryType = document.getElementById('querySelect').value;
+            if (queryType !== 'default') {
+                const columns = Object.keys(filteredUsers[0]);
+                thead.innerHTML = `<tr>${columns.map(col => `<th>${col}</th>`).join('')}</tr>`;
                 
-                return `
-                    <tr style="animation: fadeInUp 0.3s ease forwards; animation-delay: ${index * 0.05}s">
-                        <td><span class="user-id">#${user.user_id}</span></td>
-                        <td>
-                            <div class="user-cell">
-                                <div class="user-avatar">${initial}</div>
-                                <div class="user-info">
-                                    <span class="user-name">${escapeHtml(user.user_name)}</span>
-                                    <span class="user-email" style="font-size: 0.75rem; color: var(--text-secondary);">ID: ${user.user_id}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td>${escapeHtml(user.user_email)}</td>
-                        <td>${date}</td>
-                        <td>
-                            <span class="badge ${isActive ? 'badge-active' : 'badge-inactive'}">
-                                <i class="fas fa-circle" style="font-size: 6px;"></i>
-                                ${isActive ? 'Hoạt động' : 'Không hoạt động'}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="action-buttons">
-                                <a href="view.html?id=${user.user_id}" class="action-btn view" title="Xem chi tiết">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <button class="action-btn edit" onclick="editUser(${user.user_id})" title="Chỉnh sửa">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn delete" onclick="deleteUser(${user.user_id})" title="Xóa">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const usersToShow = filteredUsers.slice(start, end);
+                
+                tbody.innerHTML = usersToShow.map(user => `
+                    <tr>
+                        ${columns.map(col => `<td>${user[col] !== null ? escapeHtml(String(user[col])) : ''}</td>`).join('')}
                     </tr>
-                `;
-            }).join('');
+                `).join('');
+            } else {
+                // Query mặc định, dùng giao diện chuẩn
+                thead.innerHTML = `<tr><th>ID</th><th>Người dùng</th><th>Email</th><th>Ngày tạo</th><th>Hành động</th></tr>`;
+                
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const usersToShow = filteredUsers.slice(start, end);
 
-            document.getElementById('showingStart').textContent = filteredUsers.length > 0 ? start + 1 : 0;
-            document.getElementById('showingEnd').textContent = Math.min(end, filteredUsers.length);
+                tbody.innerHTML = usersToShow.map((user, index) => {
+                    const initial = user.user_name.charAt(0).toUpperCase();
+                    const date = user.created_at ? new Date(user.created_at).toLocaleDateString('vi-VN') : 'N/A';
+                    
+                    return `
+                        <tr style="animation: fadeInUp 0.3s ease forwards; animation-delay: ${index * 0.05}s">
+                            <td><span class="user-id">#${user.user_id}</span></td>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="user-avatar">${initial}</div>
+                                    <div class="user-info">
+                                        <span class="user-name">${escapeHtml(user.user_name)}</span>
+                                        <span class="user-email" style="font-size: 0.75rem; color: var(--text-secondary);">ID: ${user.user_id}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>${escapeHtml(user.user_email)}</td>
+                            <td>${date}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="view.html?id=${user.user_id}" class="action-btn view" title="Xem chi tiết">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <button class="action-btn edit" onclick="editUser(${user.user_id})" title="Chỉnh sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete" onclick="deleteUser(${user.user_id})" title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            document.getElementById('showingStart').textContent = filteredUsers.length > 0 ? ((currentPage - 1) * itemsPerPage) + 1 : 0;
+            document.getElementById('showingEnd').textContent = Math.min(currentPage * itemsPerPage, filteredUsers.length);
             document.getElementById('totalItems').textContent = filteredUsers.length;
         }
 

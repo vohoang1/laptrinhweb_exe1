@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
 const path = require('path');
+const bcrypt = require('bcryptjs');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -89,10 +90,14 @@ app.post('/api/register', async (req, res) => {
         }
         
         try {
-            // Lưu vào database (Sử dụng UNIQUE constraint của DB để chặn trùng email)
+            // Hash mật khẩu trước khi lưu
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+
+            // Lưu vào database
             const [result] = await pool.query(
                 'INSERT INTO users (user_name, user_email, user_pass) VALUES (?, ?, ?)',
-                [username, email, password]
+                [username, email, hashedPassword]
             );
             res.status(201).json({ message: 'Đăng ký thành công', userId: result.insertId });
         } catch (dbError) {
@@ -120,12 +125,17 @@ app.post('/api/login', async (req, res) => {
         }
         
         const [users] = await pool.query(
-            'SELECT * FROM users WHERE user_name = ? AND user_pass = ?', 
-            [username, password]
+            'SELECT * FROM users WHERE user_name = ?', 
+            [username]
         );
         
         if (users.length > 0) {
-            res.json({ message: 'Đăng nhập thành công', user: { id: users[0].user_id, name: users[0].user_name } });
+            const isMatch = await bcrypt.compare(password, users[0].user_pass || '');
+            if (isMatch) {
+                res.json({ message: 'Đăng nhập thành công', user: { id: users[0].user_id, name: users[0].user_name } });
+            } else {
+                res.status(401).json({ error: 'Sai tên đăng nhập hoặc mật khẩu' });
+            }
         } else {
             res.status(401).json({ error: 'Sai tên đăng nhập hoặc mật khẩu' });
         }
@@ -290,10 +300,14 @@ app.post('/api/customers', async (req, res) => {
         }
 
         try {
+            // Hash mật khẩu
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+
             // Lưu vào database
             const [result] = await pool.query(
                 'INSERT INTO users (user_name, user_email, user_pass) VALUES (?, ?, ?)',
-                [username, email, password]
+                [username, email, hashedPassword]
             );
             res.status(201).json({
                 message: 'Thêm khách hàng thành công',
@@ -349,7 +363,9 @@ app.put(['/api/customers/:id', '/api/users/:id'], async (req, res) => {
         }
         if (password) {
             updateFields.push('user_pass = ?');
-            updateValues.push(password);
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+            updateValues.push(hashedPassword);
         }
 
         if (updateFields.length === 0) {
